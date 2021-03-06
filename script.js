@@ -21,7 +21,7 @@ function updateScore() {
   cScore.textContent = computerScore;
 }
 
-function results(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection) {
   playerSelection = playerChoice();
   computerSelection = computerPlay();
   console.log(`you chose: ${playerSelection}`);
@@ -68,10 +68,20 @@ function results(playerSelection, computerSelection) {
   }
 }
 
-// function playRound(playerSelection, computerSelection) {
-
-//   return results(playerSelection, computerSelection);
-// }
-
 //Best of 5 match
-function playGame() {}
+function playGame() {
+  while (playerScore < 3 && computerScore < 3) {
+    playRound();
+    results();
+  }
+}
+
+function results() {
+  let outcome;
+  if (playerScore > computerScore) {
+    outcome = "You Win!";
+  } else {
+    outcome = "You Lose";
+  }
+  return (displayResults.textContent = outcome);
+}
