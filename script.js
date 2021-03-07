@@ -3,6 +3,10 @@ let computerScore = 0;
 const pScore = document.querySelector(".player_score");
 const cScore = document.querySelector(".computer_score");
 const displayResults = document.querySelector(".results");
+const startButton = document.querySelector(".start_btn");
+const resetButton = document.querySelector(".reset_btn");
+const playerChoices = document.querySelectorAll(".choices");
+const pOptions = document.querySelector(".player_options");
 
 function computerPlay() {
   let computerChoice = Math.floor(Math.random() * 3);
@@ -11,10 +15,10 @@ function computerPlay() {
   if (computerChoice === 2) return "scissors";
 }
 
-function playerChoice() {
-  let response = prompt("Type: Rock, Paper, or Scissors").toLowerCase();
-  return response;
-}
+// function playerChoice() {
+//   // let response = prompt("Type: Rock, Paper, or Scissors").toLowerCase();
+//   // return response;
+// }
 
 function updateScore() {
   pScore.textContent = playerScore;
@@ -22,57 +26,56 @@ function updateScore() {
 }
 
 function playRound(playerSelection, computerSelection) {
-  playerSelection = playerChoice();
-  computerSelection = computerPlay();
   console.log(`you chose: ${playerSelection}`);
   console.log(`computer chose: ${computerSelection}`);
 
   if (playerSelection === computerSelection) {
-    return (result = "It's a Tie");
+    result = "It's a Tie";
+    displayResults.textContent = result;
+    console.log(result);
+    return;
   }
   //Check for rock
   if (playerSelection === "rock") {
     if (computerSelection === "scissors") {
       playerScore++;
-      updateScore();
-      return (result = "You Win!");
+      result = "You Win!";
     } else {
       computerScore++;
-      updateScore();
-      return (result = "You Lose");
+      result = "You Lose";
     }
+    updateScore();
+    displayResults.textContent = result;
+    console.log(result);
+    return;
   }
   //Check for paper
   if (playerSelection === "paper") {
     if (computerSelection === "scissors") {
       computerScore++;
-      updateScore();
-      return (result = "You Lose");
+      result = "You Lose";
     } else {
       playerScore++;
-      updateScore();
-      return (result = "You Win!");
+      result = "You Win!";
     }
+    updateScore();
+    displayResults.textContent = result;
+    console.log(result);
+    return;
   }
   //Check for scissors
   if (playerSelection === "scissors") {
     if (computerSelection === "rock") {
       computerScore++;
-      updateScore();
-      return (result = "You Lose");
+      result = "You Lose";
     } else {
       playerScore++;
-      updateScore();
-      return (result = "You Win");
+      result = "You Win!";
     }
-  }
-}
-
-//Best of 5 match
-function playGame() {
-  while (playerScore < 3 && computerScore < 3) {
-    playRound();
-    results();
+    updateScore();
+    displayResults.textContent = result;
+    console.log(result);
+    return;
   }
 }
 
@@ -85,3 +88,47 @@ function results() {
   }
   return (displayResults.textContent = outcome);
 }
+
+//Reset Function
+function reset() {
+  playerScore = 0;
+  computerScore = 0;
+  updateScore();
+  displayResults.textContent = "Results";
+  startButton.style.visibility = "visible";
+  pOptions.style.visibility = "hidden";
+}
+
+function startGame() {
+  startButton.style.visibility = "hidden";
+  pOptions.style.visibility = "visible";
+  playerChoices.forEach((option) => {
+    option.addEventListener("click", function (e) {
+      playerSelection = e.target.id;
+      playRound(playerSelection, computerPlay());
+    });
+  });
+}
+
+//End Game function
+// function endGame() {
+//   if (playerScore === 3 || computerScore === 3) {
+//     pOptions.style.visibility = "hidden";
+//     startButton.style.visibility = "visible";
+//   }
+// }
+
+//Best of 5 match
+// function playGame() {
+//   while (playerScore < 3 && computerScore < 3) {
+//     startGame();
+//   }
+//   results();
+
+//First to 3 wins
+// if (playerScore === 3 || computerScore === 3) {
+//   pOptions.style.visibility = "hidden";
+//   results();
+
+startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", reset);
