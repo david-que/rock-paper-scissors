@@ -46,6 +46,7 @@ function playRound(playerSelection, computerSelection) {
     }
     updateScore();
     displayResults.textContent = result;
+    endGame();
     console.log(result);
     return;
   }
@@ -60,6 +61,7 @@ function playRound(playerSelection, computerSelection) {
     }
     updateScore();
     displayResults.textContent = result;
+    endGame();
     console.log(result);
     return;
   }
@@ -74,6 +76,7 @@ function playRound(playerSelection, computerSelection) {
     }
     updateScore();
     displayResults.textContent = result;
+    endGame();
     console.log(result);
     return;
   }
@@ -82,9 +85,9 @@ function playRound(playerSelection, computerSelection) {
 function results() {
   let outcome;
   if (playerScore > computerScore) {
-    outcome = "You Win!";
+    outcome = "You Win! Press reset to play again";
   } else {
-    outcome = "You Lose";
+    outcome = "You Lose, Press reset to play again";
   }
   return (displayResults.textContent = outcome);
 }
@@ -102,28 +105,16 @@ function reset() {
 function startGame() {
   startButton.style.visibility = "hidden";
   pOptions.style.visibility = "visible";
-  playerChoices.forEach((option) => {
-    option.addEventListener("click", function (e) {
-      playerSelection = e.target.id;
-      playRound(playerSelection, computerPlay());
-    });
-  });
 }
 
-//End Game function
-// function endGame() {
-//   if (playerScore === 3 || computerScore === 3) {
-//     pOptions.style.visibility = "hidden";
-//     startButton.style.visibility = "visible";
-//   }
-// }
-
-//Best of 5 match
-// function playGame() {
-//   while (playerScore < 3 && computerScore < 3) {
-//     startGame();
-//   }
-//   results();
+//  End Game function
+function endGame() {
+  if (pScore.textContent === "3" || cScore.textContent === "3") {
+    pOptions.style.visibility = "hidden";
+    startButton.style.visibility = "visible";
+    results();
+  }
+}
 
 //First to 3 wins
 // if (playerScore === 3 || computerScore === 3) {
@@ -132,3 +123,9 @@ function startGame() {
 
 startButton.addEventListener("click", startGame);
 resetButton.addEventListener("click", reset);
+playerChoices.forEach((option) => {
+  option.addEventListener("click", function (e) {
+    playerSelection = e.target.id;
+    playRound(playerSelection, computerPlay());
+  });
+});
